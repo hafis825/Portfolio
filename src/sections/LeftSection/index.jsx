@@ -1,6 +1,6 @@
-import Contact from "../contact"
+import Contact from "../Contact"
 import Header from "../Header"
-import Navbar from "../navbar"
+import Navbar from "../Navbar"
 
 
 const LeftSection = ({ navBarItems, currentSection }) =>{
