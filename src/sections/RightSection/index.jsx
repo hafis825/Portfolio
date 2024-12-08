@@ -1,4 +1,4 @@
-import About from "../about"
+import About from "../About"
 import Footer from "../Footer"
 import ContentContainer from "../../conponents/ContentContainer"
 
