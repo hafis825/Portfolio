@@ -17,7 +17,7 @@ export const data = [
     },
     {
         title: "BorrowEquipment System",
-        link: "http://www.abdulhafis.free.nf/BorrowEquipmentSystems/",
+        link: "http://www.abdulhafis.free.nf/LoanSystems/",
         descriptions: [
             ""
         ],
