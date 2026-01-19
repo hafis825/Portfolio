@@ -8,7 +8,7 @@ const Navbar = ({ navBarItems, currentSection }) =>{
     }
 
     return (
-        <div className='hidden lg:flex flex-col gap-5 text-sm'>
+        <div className='hidden lg:flex flex-col gap-5 text-xs tracking-widest'>
             {
                 navBarItems.map((e, i) => (
                     <div 
@@ -19,7 +19,7 @@ const Navbar = ({ navBarItems, currentSection }) =>{
                         onMouseLeave={() => setIsMouseEnter({ [e.title]: false })}
                     >
                         <span className={`bg-primaryBase h-[1px] inline-block transition-all mr-4 ${isMouseEnter[e.title] || currentSection === e.sectionId ? "pr-14 bg-primaryContent" : "pr-7"} `}></span>
-                        <span className={`transition-all ${isMouseEnter[e.title] || currentSection === e.sectionId ? "text-primaryContent" : ""} `}>{e.title}</span>
+                        <span className={`transition-all font-semibold ${isMouseEnter[e.title] || currentSection === e.sectionId ? "text-primaryContent" : ""} `}>{e.title}</span>
                     </div>
                 ))
             }

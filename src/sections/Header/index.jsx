@@ -2,9 +2,9 @@ import { data } from '../../contents/header'
 const Header = () =>{
     return (
         <div className='flex flex-col gap-2'>
-            <div className='text-4xl text-primaryTitle font-bold'>{data.name}</div>
-            <div className='text-lg text-primaryContent font-semibold'>{data.title}</div>
-            <div className='text-base text-primarySub w-5/6'>{data.caption}</div>
+            <h1 className='text-5xl font-bold text-primaryContent'>{data.name}</h1>
+            <h2 className='text-xl font-medium text-primaryContent'>{data.title}</h2>
+            {/* <p className='text-primarySub w-5/6'>{data.caption}</p> */}
         </div>
     )
 }

@@ -15,7 +15,7 @@ export default {
         
         primarybtn: "#59deca",
         primarybgbtn: "#122b39",
-        primaryHover: "#172633",
+        primaryHover: "#162032",
       }
     },
   },

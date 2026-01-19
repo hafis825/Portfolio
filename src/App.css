@@ -1,0 +1,19 @@
+::selection {
+    background: #025959;
+    color: #59deca;
+}
+
+.fade-in {
+    animation: fadeIn 1.5s ease-in-out forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
