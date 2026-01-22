@@ -17,3 +17,46 @@
         opacity: 1;
     }
 }
+
+.fade-out {
+    animation: fadeOut 1s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Double-click animation - scales twice quickly */
+.double-click-anim {
+    animation: doubleClick 1.5s ease-in-out infinite;
+}
+
+@keyframes doubleClick {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    10% {
+        transform: scale(0.7);
+    }
+
+    20% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(0.7);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+}
