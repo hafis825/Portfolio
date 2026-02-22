@@ -32,7 +32,13 @@ function App() {
   // UI state
   const [isLoading, setIsLoading] = useState(true)
   const [showCursorGlow, setShowCursorGlow] = useState(false)
-  const [showSnow, setShowSnow] = useState(false)
+  const [showSnow, setShowSnow] = useState(() => {
+    try {
+      return localStorage.getItem("showSnow") === "true"
+    } catch {
+      return false
+    }
+  })
 
   // Refs
   const cursorRef = useRef(null)
@@ -161,17 +167,34 @@ function App() {
 
   return (
     <>
-      {/* Snowfall effect */}
-      {!isLoading && showSnow && <Snowfall />}
+      {/* Snowfall effect with fade transition */}
+      {!isLoading && (
+        <div
+          className="fixed inset-0 pointer-events-none z-40"
+          style={{
+            opacity: showSnow ? 1 : 0,
+            transition: "opacity 0.6s ease-in-out",
+          }}
+        >
+          {showSnow && <Snowfall />}
+        </div>
+      )}
 
       {/* Snowfall toggle button */}
       {!isLoading && (
         <button
-          onClick={() => setShowSnow((prev) => !prev)}
+          onClick={() => {
+            setShowSnow((prev) => {
+              const next = !prev
+              try { localStorage.setItem("showSnow", String(next)) } catch { }
+              return next
+            })
+          }}
           className="fixed bottom-5 right-5 z-50 w-10 h-10 rounded-lg flex items-center justify-center text-lg cursor-pointer text-white  backdrop-blur-sm"
           style={{
             background: showSnow ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.05)",
             opacity: showSnow ? 1 : 0.5,
+            transition: "all 0.3s ease",
           }}
           title={showSnow ? "Turn off snow" : "Turn on snow"}
           aria-label={showSnow ? "Turn off snow" : "Turn on snow"}

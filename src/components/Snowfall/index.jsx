@@ -1,27 +1,38 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
-const SNOWFLAKE_COUNT = 45
 const SNOWFLAKE_CHARS = ["❄", "❅", "❆"]
+const DEBOUNCE_MS = 200
+
+function getSnowflakeCount() {
+    return window.innerWidth < 768 ? 20 : 45
+}
 
 function createSnowflake(canvasWidth, canvasHeight, startFromTop = false) {
-    const size = Math.random() * 14 + 6 // 6–20px font size (small, medium, large mix)
+    const size = Math.random() * 14 + 6
     return {
         x: Math.random() * canvasWidth,
         y: startFromTop ? -size : Math.random() * canvasHeight,
         size,
-        speed: size * 0.15 + 0.25, // larger flakes fall slightly faster
-        opacity: Math.random() * 0.5 + 0.3, // 0.3–0.8
+        speed: size * 0.15 + 0.25,
+        opacity: Math.random() * 0.5 + 0.3,
         swaySpeed: Math.random() * 0.005 + 0.002,
         swayAmplitude: Math.random() * 40 + 20,
         swayOffset: Math.random() * Math.PI * 2,
         char: SNOWFLAKE_CHARS[Math.floor(Math.random() * SNOWFLAKE_CHARS.length)],
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.01, // slow spin
+        rotationSpeed: (Math.random() - 0.5) * 0.01,
     }
 }
 
 export default function Snowfall() {
     const canvasRef = useRef(null)
+    const [visible, setVisible] = useState(false)
+
+    // Fade-in on mount
+    useEffect(() => {
+        const timer = requestAnimationFrame(() => setVisible(true))
+        return () => cancelAnimationFrame(timer)
+    }, [])
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -30,6 +41,7 @@ export default function Snowfall() {
         const ctx = canvas.getContext("2d")
         let animationId
         let snowflakes = []
+        let debounceTimer = null
 
         const resize = () => {
             canvas.width = window.innerWidth
@@ -38,20 +50,42 @@ export default function Snowfall() {
 
         const init = () => {
             resize()
-            snowflakes = Array.from({ length: SNOWFLAKE_COUNT }, () =>
+            const count = getSnowflakeCount()
+            snowflakes = Array.from({ length: count }, () =>
                 createSnowflake(canvas.width, canvas.height, false)
             )
         }
 
+        const handleResize = () => {
+            if (debounceTimer) clearTimeout(debounceTimer)
+            debounceTimer = setTimeout(() => {
+                resize()
+                // Re-distribute snowflakes for new dimensions
+                const count = getSnowflakeCount()
+                if (snowflakes.length > count) {
+                    snowflakes = snowflakes.slice(0, count)
+                } else {
+                    while (snowflakes.length < count) {
+                        snowflakes.push(createSnowflake(canvas.width, canvas.height, false))
+                    }
+                }
+                // Clamp existing flakes within new bounds
+                for (const flake of snowflakes) {
+                    if (flake.x > canvas.width) flake.x = Math.random() * canvas.width
+                }
+            }, DEBOUNCE_MS)
+        }
+
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
+            const now = Date.now()
 
             for (let i = 0; i < snowflakes.length; i++) {
                 const flake = snowflakes[i]
 
                 // Update position
                 flake.y += flake.speed
-                flake.x += Math.sin(Date.now() * flake.swaySpeed + flake.swayOffset) * 0.3
+                flake.x += Math.sin(now * flake.swaySpeed + flake.swayOffset) * 0.3
                 flake.rotation += flake.rotationSpeed
 
                 // Recycle: when flake goes below screen, reset to top
@@ -81,11 +115,12 @@ export default function Snowfall() {
         init()
         animate()
 
-        window.addEventListener("resize", resize)
+        window.addEventListener("resize", handleResize)
 
         return () => {
             cancelAnimationFrame(animationId)
-            window.removeEventListener("resize", resize)
+            window.removeEventListener("resize", handleResize)
+            if (debounceTimer) clearTimeout(debounceTimer)
         }
     }, [])
 
@@ -93,6 +128,10 @@ export default function Snowfall() {
         <canvas
             ref={canvasRef}
             className="fixed inset-0 pointer-events-none z-40"
+            style={{
+                opacity: visible ? 1 : 0,
+                transition: "opacity 0.6s ease-in-out",
+            }}
             aria-hidden="true"
         />
     )
