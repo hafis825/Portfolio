@@ -3,13 +3,10 @@ import "./App.css"
 import LeftSection from "./sections/LeftSection"
 import RightSection from "./sections/RightSection"
 import SkeletonLoader from "./components/SkeletonLoader"
-import HintTooltip from "./components/HintTooltip"
+import Snowfall from "./components/Snowfall"
 
 // Constants
 const LOADING_DELAY = 2000
-const HINT_SHOW_DELAY = 1000
-const HINT_VISIBLE_DURATION = 10000
-const HINT_FADE_DURATION = 1000
 const GLOW_DURATION = 10 * 60 * 1000 // 10 minutes
 const SHAKE_THRESHOLD = 30
 const SHAKE_COUNT_REQUIRED = 5
@@ -35,10 +32,7 @@ function App() {
   // UI state
   const [isLoading, setIsLoading] = useState(true)
   const [showCursorGlow, setShowCursorGlow] = useState(false)
-  const [showShakeHint, setShowShakeHint] = useState(false)
-  const [shakeHintFading, setShakeHintFading] = useState(false)
-  const [showDblClickHint, setShowDblClickHint] = useState(false)
-  const [dblClickHintFading, setDblClickHintFading] = useState(false)
+  const [showSnow, setShowSnow] = useState(false)
 
   // Refs
   const cursorRef = useRef(null)
@@ -51,51 +45,11 @@ function App() {
     lastShakeTime: 0
   })
 
-  // Helper function to create auto-dismiss hint timers
-  const createHintTimers = (setShow, setFading) => {
-    const showTimer = setTimeout(() => setShow(true), HINT_SHOW_DELAY)
-    const fadeTimer = setTimeout(() => setFading(true), HINT_SHOW_DELAY + HINT_VISIBLE_DURATION)
-    const hideTimer = setTimeout(() => {
-      setShow(false)
-      setFading(false)
-    }, HINT_SHOW_DELAY + HINT_VISIBLE_DURATION + HINT_FADE_DURATION)
-
-    return { showTimer, fadeTimer, hideTimer }
-  }
-
-  const clearHintTimers = (timers) => {
-    if (timers) {
-      clearTimeout(timers.showTimer)
-      clearTimeout(timers.fadeTimer)
-      clearTimeout(timers.hideTimer)
-    }
-  }
-
   // Initial loading
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), LOADING_DELAY)
     return () => clearTimeout(timer)
   }, [])
-
-  // Shake hint (when glow is OFF)
-  useEffect(() => {
-    if (isLoading || showCursorGlow) return
-
-    const timers = createHintTimers(setShowShakeHint, setShakeHintFading)
-    return () => clearHintTimers(timers)
-  }, [isLoading, showCursorGlow])
-
-  // Double-click hint (when glow is ON)
-  useEffect(() => {
-    if (!showCursorGlow) {
-      setShowDblClickHint(false)
-      setDblClickHintFading(false)
-      return
-    }
-
-    const timers = createHintTimers(setShowDblClickHint, setDblClickHintFading)
-    return () => clearHintTimers(timers)
-  }, [showCursorGlow])
 
   // Mouse shake detection & cursor glow position
   useEffect(() => {
@@ -133,7 +87,6 @@ function App() {
           if (data.directionChanges >= SHAKE_COUNT_REQUIRED) {
             data.directionChanges = 0
             setShowCursorGlow(true)
-            setShowShakeHint(false)
 
             if (glowTimerRef.current) clearTimeout(glowTimerRef.current)
             glowTimerRef.current = setTimeout(() => setShowCursorGlow(false), GLOW_DURATION)
@@ -208,32 +161,31 @@ function App() {
 
   return (
     <>
+      {/* Snowfall effect */}
+      {!isLoading && showSnow && <Snowfall />}
+
+      {/* Snowfall toggle button */}
+      {!isLoading && (
+        <button
+          onClick={() => setShowSnow((prev) => !prev)}
+          className="fixed bottom-5 right-5 z-50 w-10 h-10 rounded-lg flex items-center justify-center text-lg cursor-pointer text-white  backdrop-blur-sm"
+          style={{
+            background: showSnow ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.05)",
+            opacity: showSnow ? 1 : 0.5,
+          }}
+          title={showSnow ? "Turn off snow" : "Turn on snow"}
+          aria-label={showSnow ? "Turn off snow" : "Turn on snow"}
+        >
+          ❆
+        </button>
+      )}
+
       {/* Cursor glow effect */}
       {!isLoading && showCursorGlow && (
         <div
           ref={cursorRef}
           className="hidden lg:block fixed pointer-events-none w-80 h-80 rounded-full z-50"
           style={cursorGlowStyle}
-        />
-      )}
-
-      {/* Shake mouse hint */}
-      {!isLoading && showShakeHint && !showCursorGlow && (
-        <HintTooltip
-          title="Turn on the flashlight"
-          subtitle="Shake mouse!"
-          iconAnimation="shake"
-          isFadingOut={shakeHintFading}
-        />
-      )}
-
-      {/* Double-click hint */}
-      {!isLoading && showDblClickHint && showCursorGlow && (
-        <HintTooltip
-          title="Turn off the flashlight"
-          subtitle="Double-click!"
-          iconAnimation="double-click-anim"
-          isFadingOut={dblClickHintFading}
         />
       )}
 
