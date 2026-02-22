@@ -141,28 +141,33 @@ function App() {
     })
   }
 
-  const handleScroll = () => {
-    const viewHeight = window.innerHeight * 0.3
-
-    for (const id of sectionIds) {
-      const rect = document.getElementById(id).getClientRects()[0]
-      const offsetTop = rect.y
-      const halfHeight = rect.height * 0.5
-
-      if ((offsetTop <= 0 && offsetTop + halfHeight > viewHeight) ||
-        (offsetTop > 0 && offsetTop < viewHeight)) {
-        setCurrentSection(id)
-      }
-    }
-  }
-
   useEffect(() => {
     if (sectionIds.length > 0) setCurrentSection(sectionIds[0])
   }, [sectionIds])
 
+  // IntersectionObserver for active section detection
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    if (sectionIds.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setCurrentSection(entry.target.id)
+          }
+        }
+      },
+      {
+        rootMargin: "-30% 0px -70% 0px",
+      }
+    )
+
+    for (const id of sectionIds) {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    }
+
+    return () => observer.disconnect()
   }, [sectionIds])
 
   return (
