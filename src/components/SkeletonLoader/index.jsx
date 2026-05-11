@@ -9,7 +9,7 @@ const SkeletonLoader = () => {
     }, []);
 
     return (
-        <div className="px-12 mt-24 mx-auto max-w-7xl grid gap-y-5 lg:grid-cols-[40%_60%] animate-pulse">
+        <div className="px-12 mt-24 mx-auto max-w-7xl grid gap-y-5 lg:grid-cols-[45%_55%] animate-pulse">
             {/* Left Section Skeleton */}
             <div className="pr-4">
                 <div className="sticky top-24 grid gap-y-5 lg:grid-rows-[2fr_2fr_30%] lg:h-[80vh]">

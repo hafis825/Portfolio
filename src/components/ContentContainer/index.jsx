@@ -45,7 +45,7 @@ const ContentContainer = ({ onInitial, title: sectionTitle = "", data = [] }) =>
                     >
                         <div className="flex flex-col ">
                             <FormattedDate isHighLight={isCurrentHovered}>{date}</FormattedDate>
-                            <Picture isHighLight={isCurrentHovered} picture={picture} />
+                            <Picture isHighLight={isCurrentHovered} picture={picture} title={title} />
                         </div>
                         <div className="grid gap-y-3">
                             <TitleLink isHighLight={isCurrentHovered} title={title} link={link} />

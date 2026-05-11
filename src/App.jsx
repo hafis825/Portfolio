@@ -221,10 +221,10 @@ function App() {
       {isLoading ? (
         <SkeletonLoader />
       ) : (
-        <div className="fade-in px-6 pt-12 lg:mt-12 mx-auto max-w-7xl grid gap-y-5 lg:grid-cols-[45%_55%]">
+        <main className="fade-in px-6 pt-12 lg:mt-12 mx-auto max-w-7xl grid gap-y-5 lg:grid-cols-[45%_55%]">
           <LeftSection navBarItems={navBarItems} currentSection={currentSection} />
           <RightSection onInitial={addSectionIds} />
-        </div>
+        </main>
       )}
     </>
   )
