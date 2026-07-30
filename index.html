@@ -33,5 +33,13 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Register service worker for efficient caching on revisits
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/Portfolio/sw.js', { scope: '/Portfolio/' });
+        });
+      }
+    </script>
   </body>
 </html>
