@@ -61,11 +61,23 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(staleWhileRevalidate(request));
 });
 
-// ── Strategies ──
+// Rewrite response headers to set a long cache lifetime.
+// GitHub Pages sends max-age=600 for all files, but content-hashed
+// assets are immutable (the hash changes when content changes),
+// so we override to max-age=31536000 (1 year) + immutable.
+function withLongCacheHeaders(response) {
+  const headers = new Headers(response.headers);
+  headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
 
 async function cacheFirst(request) {
   const cached = await caches.match(request);
-  if (cached) return cached;
+  if (cached) return withLongCacheHeaders(cached);
 
   try {
     const response = await fetch(request);
@@ -73,7 +85,7 @@ async function cacheFirst(request) {
       const cache = await caches.open(CACHE_NAME);
       cache.put(request, response.clone());
     }
-    return response;
+    return withLongCacheHeaders(response);
   } catch {
     return new Response('Offline', { status: 503 });
   }
