@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, lazy, Suspense } from "react"
 import "./App.css"
 import LeftSection from "./sections/LeftSection"
-import RightSection from "./sections/RightSection"
+const RightSection = lazy(() => import("./sections/RightSection"))
 import SkeletonLoader from "./components/SkeletonLoader"
-import Snowfall from "./components/Snowfall"
+const Snowfall = lazy(() => import("./components/Snowfall"))
 
 // Constants
 const LOADING_DELAY = 2000
@@ -181,7 +181,7 @@ function App() {
             transition: "opacity 0.6s ease-in-out",
           }}
         >
-          {showSnow && <Snowfall />}
+          {showSnow && <Suspense fallback={null}><Snowfall /></Suspense>}
         </div>
       )}
 
@@ -223,7 +223,9 @@ function App() {
       ) : (
         <main className="fade-in px-6 pt-12 lg:mt-12 mx-auto max-w-7xl grid gap-y-5 lg:grid-cols-[45%_55%]">
           <LeftSection navBarItems={navBarItems} currentSection={currentSection} />
-          <RightSection onInitial={addSectionIds} />
+          <Suspense fallback={null}>
+            <RightSection onInitial={addSectionIds} />
+          </Suspense>
         </main>
       )}
     </>

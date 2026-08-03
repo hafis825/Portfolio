@@ -3,17 +3,18 @@ export const data = [
         title: "ABOUT",
         description: [
             {
-                text: "I'm a Student IT driven by an insatiable curiosity for technological frontiers. My world revolves around transforming complex ideas into elegant digital solutions that push the boundaries of what's possible."
+                text: "ผมเป็นนักศึกษา IT ที่มีความสนใจในด้านเทคโนโลยี ผมชอบไอเดียที่ซับซ้อนที่เป็นผลงานดิจิทัลที่ใช้งานได้จริง และพร้อมก้าวข้ามขีดจำกัดใหม่ๆ อยู่เสมอ"
             },
             {
-                text: "From the moment I first wrote my first line of code, I've been fascinated by technology's power to solve real-world problems. I don't just see programming as a job — it's my canvas for creativity, a place where logic meets imagination. My passion lies in crafting web experiences that are not just functional, but intuitive and meaningful."
+                text: "ตั้งแต่ที่ได้เริ่มรู้เกี่ยวกับการเขียนโปรแกรม ผมก็เริ่มสนใจในการใช้เทคโนโลยีเข้ามาช่วยแก้ปัญหาในชีวิตจริง สำหรับผม การเขียนโปรแกรมไม่ใช่แค่การทำงาน แต่เป็นพื้นที่ปลดปล่อยความคิดสร้างสรรค์ ที่ที่ตรรกะกับจินตนาการมาบรรจบกัน สิ่งที่ผมตั้งใจทำคือการสร้างเว็บที่ไม่ได้มีดีแค่ฟังก์ชัน แต่ต้องใช้งานง่ายและตอบโจทย์ผู้ใช้อย่างแท้จริง"
             },
             {
-                text: "What excites me most about technology is its constant evolution. I'm always eager to explore emerging technologies like AI, machine learning, and innovative web frameworks. Whether it's experimenting with cutting-edge React diving into serverless architectures, or understanding the potential of generative AI, I'm continuously learning and adapting."
+                text: "สิ่งที่น่าสนใจเกี่ยวกับเทคโนโลยีคือการไม่หยุดพัฒนา ผมพร้อมเรียนรู้สิ่งใหม่ๆ เสมอ ไม่ว่าจะเป็น AI, Machine Learning หรือ Web Frameworks ใหม่ๆ ไม่ว่าจะเป็นการทดลองใช้ React, การศึกษา Serverless Architecture หรือการดึงศักยภาพของ Generative AI มาปรับใช้ ผมเรียนรู้และพัฒนาตัวเองอยู่เสมอครับ"
             },
             {
-                text: "Beyond coding, I believe in technology as a tool for positive change. I'm committed to creating accessible, user-centered designs that make digital experiences more inclusive and human-centered."
+                text: "นอกเหนือจากการเขียนโค้ด ผมเชื่อว่าเทคโนโลยีเป็นเครื่องมือสำคัญที่ช่วยสร้างการเปลี่ยนแปลงที่ดีได้ ผมจึงตั้งใจออกแบบผลงานโดยเน้นผู้ใช้งานเป็นสำคัญ เพื่อให้ทุกคนเข้าถึงและใช้งานได้อย่างสะดวกสบายและครอบคลุมที่สุดครับ"
             }
         ],
     },
 ];
+

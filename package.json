@@ -11,11 +11,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.7.1",
-    "@fortawesome/free-brands-svg-icons": "^6.7.1",
-    "@fortawesome/free-regular-svg-icons": "^6.7.1",
-    "@fortawesome/free-solid-svg-icons": "^6.7.1",
-    "@fortawesome/react-fontawesome": "^0.2.2",
+    "preact": "^10.29.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -32,7 +28,10 @@
     "gh-pages": "^6.3.0",
     "globals": "^15.12.0",
     "postcss": "^8.4.49",
+    "sharp": "^0.35.3",
+    "svgo": "^4.0.2",
     "tailwindcss": "^3.4.16",
-    "vite": "^6.0.1"
+    "vite": "^6.0.1",
+    "vite-plugin-image-optimizer": "^2.0.3"
   }
 }
